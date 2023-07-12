@@ -1,14 +1,17 @@
-- task: Maven@4
-  inputs:
-    mavenPomFile: 'pom.xml'
-    publishJUnitResults: true
-    testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    javaHomeOption: 'JDKVersion'
-    mavenVersionOption: 'Default'
-    mavenAuthenticateFeed: false
-    effectivePomSkip: false
-    sonarQubeRunAnalysis: false
-- task: PublishTestResults@2
-  inputs:
-    testResultsFormat: 'JUnit'
-    testResultsFiles: '**/TEST-*.xml'
+trigger:
+ - main
+
+pool:
+   vmImage: 'ubuntu-latest'
+
+steps:
+ - task: Maven@4
+   inputs:
+     mavenPomFile: 'pom.xml'
+     mavenOptions: '-Xmx3072m'
+     javaHomeOption: 'JDKVersion'
+     jdkVersionOption: '1.11'
+     jdkArchitectureOption: 'x64'
+     publishJUnitResults: false
+     testResultsFiles: '**/surefire-reports/TEST-*.xml'
+     goals: 'package'
